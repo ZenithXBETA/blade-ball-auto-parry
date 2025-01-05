@@ -1,82 +1,136 @@
--- The script initializes a GUI with features, auto parry, and other functions
+-- Initialize the temporary welcome GUI
+local welcomeGui = Instance.new("ScreenGui")
+local welcomeFrame = Instance.new("Frame")
+local welcomeTextLabel = Instance.new("TextLabel")
 
--- Define the function to create the initial GUI
-local function createGUI()
-    -- Create ScreenGui for player
-    local ScreenGui = Instance.new("ScreenGui")
-    ScreenGui.Parent = game.Players.LocalPlayer.PlayerGui
-    ScreenGui.Name = "AutoParryGUI"
+welcomeGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+welcomeGui.Name = "WelcomeGUI"
 
-    -- Create main frame
-    local mainFrame = Instance.new("Frame")
-    mainFrame.Size = UDim2.new(0, 300, 0, 200)
-    mainFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
-    mainFrame.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-    mainFrame.Parent = ScreenGui
+welcomeFrame.Parent = welcomeGui
+welcomeFrame.Size = UDim2.new(0, 300, 0, 200)
+welcomeFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
+welcomeFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 
-    -- Create a label to show the status
-    local statusLabel = Instance.new("TextLabel")
-    statusLabel.Text = "Initializing features..."
-    statusLabel.Size = UDim2.new(0, 280, 0, 40)
-    statusLabel.Position = UDim2.new(0, 10, 0, 10)
-    statusLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-    statusLabel.BackgroundTransparency = 1
-    statusLabel.Parent = mainFrame
+welcomeTextLabel.Parent = welcomeFrame
+welcomeTextLabel.Size = UDim2.new(1, 0, 1, 0)
+welcomeTextLabel.Position = UDim2.new(0, 0, 0, 0)
+welcomeTextLabel.BackgroundTransparency = 1
+welcomeTextLabel.Text = "ZenithXBETA"
+welcomeTextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+welcomeTextLabel.TextSize = 20
+welcomeTextLabel.TextAlign = Enum.TextAlign.Center
 
-    -- Function to hide the GUI after 2 seconds
-    wait(2)
-    ScreenGui:Destroy()
+-- Remove the welcome GUI after 2 seconds
+wait(2)
+welcomeGui:Destroy()
+
+-- Initialize the main GUI
+local mainGui = Instance.new("ScreenGui")
+local mainFrame = Instance.new("Frame")
+local autoParryButton = Instance.new("TextButton")
+local autoSpamButton = Instance.new("TextButton")
+local manualSpamButton = Instance.new("TextButton")
+local antiCurveButton = Instance.new("TextButton")
+local autoCurveButton = Instance.new("TextButton")
+local minimizeButton = Instance.new("TextButton")
+local exitButton = Instance.new("TextButton")
+local maximizeButton = Instance.new("TextButton")
+local nameLabel = Instance.new("TextLabel")
+
+mainGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+mainGui.Name = "MainGUI"
+
+mainFrame.Parent = mainGui
+mainFrame.Size = UDim2.new(0, 300, 0, 400)
+mainFrame.Position = UDim2.new(0.5, -150, 0.5, -200)
+mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Black background
+mainFrame.BackgroundTransparency = 0.3 -- Slight transparency
+
+-- Create buttons for each feature
+local function createButton(button, text, position, color)
+    button.Parent = mainFrame
+    button.Size = UDim2.new(0, 200, 0, 50)
+    button.Position = position
+    button.BackgroundColor3 = color or Color3.fromRGB(0, 255, 0)
+    button.Text = text
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.TextSize = 20
 end
 
--- Define the function to initialize all features
-local function initializeFeatures()
-    local autoParry = false
-    local autoSpam = false
-    local manualSpam = false
-    local autoCurve = false
-    local antiCurve = false
+createButton(autoParryButton, "Auto Parry", UDim2.new(0.5, -100, 0.1, 0), Color3.fromRGB(0, 255, 0))
+createButton(autoSpamButton, "Auto Spam", UDim2.new(0.5, -100, 0.3, 0), Color3.fromRGB(0, 255, 0))
+createButton(manualSpamButton, "Manual Spam", UDim2.new(0.5, -100, 0.5, 0), Color3.fromRGB(0, 255, 0))
+createButton(antiCurveButton, "Anti Curve", UDim2.new(0.5, -100, 0.7, 0), Color3.fromRGB(0, 255, 0))
+createButton(autoCurveButton, "Auto Curve", UDim2.new(0.5, -100, 0.9, 0), Color3.fromRGB(0, 255, 0))
 
-    -- Add GUI for features
-    local featureGui = Instance.new("ScreenGui")
-    featureGui.Parent = game.Players.LocalPlayer.PlayerGui
-    featureGui.Name = "FeaturesGUI"
+-- Exit, Minimize, and Maximize Buttons
+createButton(minimizeButton, "-", UDim2.new(1, -40, 0, 0), Color3.fromRGB(255, 0, 0))
+minimizeButton.TextSize = 30
+minimizeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+minimizeButton.MouseButton1Click:Connect(function()
+    mainGui.Enabled = false
+end)
 
-    -- Create a frame for the features
-    local featuresFrame = Instance.new("Frame")
-    featuresFrame.Size = UDim2.new(0, 300, 0, 300)
-    featuresFrame.Position = UDim2.new(0.5, -150, 0.5, -150)
-    featuresFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    featuresFrame.Parent = featureGui
+createButton(exitButton, "X", UDim2.new(1, -80, 0, 0), Color3.fromRGB(255, 0, 0))
+exitButton.TextSize = 30
+exitButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+exitButton.MouseButton1Click:Connect(function()
+    mainGui:Destroy()
+end)
 
-    -- Create buttons for each feature
-    local autoParryButton = Instance.new("TextButton")
-    autoParryButton.Text = "Auto Parry"
-    autoParryButton.Size = UDim2.new(0, 280, 0, 40)
-    autoParryButton.Position = UDim2.new(0, 10, 0, 10)
-    autoParryButton.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
-    autoParryButton.Parent = featuresFrame
-    autoParryButton.MouseButton1Click:Connect(function()
-        autoParry = not autoParry
-        print("Auto Parry enabled:", autoParry)
-    end)
+createButton(maximizeButton, "□", UDim2.new(1, -120, 0, 0), Color3.fromRGB(0, 0, 255))
+maximizeButton.TextSize = 30
+maximizeButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
+maximizeButton.MouseButton1Click:Connect(function()
+    mainGui.Enabled = true
+end)
 
-    -- Add other features such as auto spam, manual spam, etc.
-    local autoSpamButton = Instance.new("TextButton")
-    autoSpamButton.Text = "Auto Spam"
-    autoSpamButton.Size = UDim2.new(0, 280, 0, 40)
-    autoSpamButton.Position = UDim2.new(0, 10, 0, 60)
-    autoSpamButton.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
-    autoSpamButton.Parent = featuresFrame
-    autoSpamButton.MouseButton1Click:Connect(function()
-        autoSpam = not autoSpam
-        print("Auto Spam enabled:", autoSpam)
-    end)
+-- Display script name at the bottom left
+nameLabel.Parent = mainGui
+nameLabel.Size = UDim2.new(0, 200, 0, 30)
+nameLabel.Position = UDim2.new(0, 0, 1, -30)
+nameLabel.BackgroundTransparency = 1
+nameLabel.Text = "ZenithXBETA"
+nameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+nameLabel.TextSize = 15
 
-    -- Add more buttons here for the other features
-    -- For example: manualSpamButton, autoCurveButton, antiCurveButton, etc.
+-- Toggle feature functions (with button color change)
+local function toggleAutoParry()
+    autoParryButton.BackgroundColor3 = autoParryButton.BackgroundColor3 == Color3.fromRGB(0, 255, 0) and Color3.fromRGB(0, 0, 255) or Color3.fromRGB(0, 255, 0)
+    print("Auto Parry " .. (autoParryButton.BackgroundColor3 == Color3.fromRGB(0, 255, 0) and "Disabled" or "Enabled"))
+    -- Add auto parry functionality here
 end
 
--- Main logic to start the script
-createGUI()
-initializeFeatures()
+local function toggleAutoSpam()
+    autoSpamButton.BackgroundColor3 = autoSpamButton.BackgroundColor3 == Color3.fromRGB(0, 255, 0) and Color3.fromRGB(0, 0, 255) or Color3.fromRGB(0, 255, 0)
+    print("Auto Spam " .. (autoSpamButton.BackgroundColor3 == Color3.fromRGB(0, 255, 0) and "Disabled" or "Enabled"))
+    -- Add auto spam functionality here
+end
 
+local function toggleManualSpam()
+    manualSpamButton.BackgroundColor3 = manualSpamButton.BackgroundColor3 == Color3.fromRGB(0, 255, 0) and Color3.fromRGB(0, 0, 255) or Color3.fromRGB(0, 255, 0)
+    print("Manual Spam " .. (manualSpamButton.BackgroundColor3 == Color3.fromRGB(0, 255, 0) and "Disabled" or "Enabled"))
+    -- Add manual spam functionality here
+end
+
+local function toggleAntiCurve()
+    antiCurveButton.BackgroundColor3 = antiCurveButton.BackgroundColor3 == Color3.fromRGB(0, 255, 0) and Color3.fromRGB(0, 0, 255) or Color3.fromRGB(0, 255, 0)
+    print("Anti Curve " .. (antiCurveButton.BackgroundColor3 == Color3.fromRGB(0, 255, 0) and "Disabled" or "Enabled"))
+    -- Add anti curve functionality here
+end
+
+local function toggleAutoCurve()
+    autoCurveButton.BackgroundColor3 = autoCurveButton.BackgroundColor3 == Color3.fromRGB(0, 255, 0) and Color3.fromRGB(0, 0, 255) or Color3.fromRGB(0, 255, 0)
+    print("Auto Curve " .. (autoCurveButton.BackgroundColor3 == Color3.fromRGB(0, 255, 0) and "Disabled" or "Enabled"))
+    -- Add auto curve functionality here
+end
+
+-- Connect buttons to their respective toggle functions
+autoParryButton.MouseButton1Click:Connect(toggleAutoParry)
+autoSpamButton.MouseButton1Click:Connect(toggleAutoSpam)
+manualSpamButton.MouseButton1Click:Connect(toggleManualSpam)
+antiCurveButton.MouseButton1Click:Connect(toggleAntiCurve)
+autoCurveButton.MouseButton1Click:Connect(toggleAutoCurve)
+
+-- Debugging Print (Make sure the script is running)
+print("Main GUI Initialized, ready to show features!")
