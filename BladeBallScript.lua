@@ -1,45 +1,75 @@
--- Initialize the GUI
-local ScreenGui = Instance.new("ScreenGui")
-local Frame = Instance.new("Frame")
-local TextLabel = Instance.new("TextLabel")
-local Button = Instance.new("TextButton")
+-- Function to create the GUI
+local function createGUI()
+    -- Create your GUI components here
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Parent = game.Players.LocalPlayer.PlayerGui
+    
+    local frame = Instance.new("Frame")
+    frame.Parent = screenGui
+    frame.Size = UDim2.new(0, 400, 0, 300)
+    frame.Position = UDim2.new(0.5, -200, 0.5, -150)
+    frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    
+    local textLabel = Instance.new("TextLabel")
+    textLabel.Parent = frame
+    textLabel.Size = UDim2.new(1, 0, 1, 0)
+    textLabel.Text = "Initializing Features..."
+    textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    textLabel.TextSize = 24
+    textLabel.TextXAlignment = Enum.TextXAlignment.Center
+    textLabel.TextYAlignment = Enum.TextYAlignment.Center
+    
+    -- Wait for 2 seconds, then hide the GUI and show features
+    wait(2)
+    screenGui:Destroy()  -- Hide the initial GUI
+    
+    -- Now, call the features you want to show
+    enableFeatures()  -- This is where you can enable auto parry, spam, etc.
+end
 
--- Create the ScreenGui and Parent it to the player's PlayerGui
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-ScreenGui.Name = "AutoParryGUI"
+-- Function to enable features
+local function enableFeatures()
+    -- Enable your features here
+    print("Features Enabled!")
+    -- For example, you can call the function for auto parry, spam, etc.
+    autoParry()
+    autoSpam()
+    manualSpam()
+    autoCurve()
+    antiCurve()
+    enableAutoParryVisualizer()
+end
 
--- Create a Frame to hold the button
-Frame.Parent = ScreenGui
-Frame.Size = UDim2.new(0, 300, 0, 200)
-Frame.Position = UDim2.new(0.5, -150, 0.5, -100)
-Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+-- Example feature functions
+local function autoParry()
+    -- Put your code for auto parry here
+    print("Auto Parry Enabled")
+end
 
--- Create a label on the Frame
-TextLabel.Parent = Frame
-TextLabel.Size = UDim2.new(1, 0, 0.3, 0)
-TextLabel.Position = UDim2.new(0, 0, 0, 0)
-TextLabel.BackgroundTransparency = 1
-TextLabel.Text = "Blade Ball Auto Parry Script"
-TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel.TextSize = 20
-TextLabel.TextAlign = Enum.TextAlign.Center
+local function autoSpam()
+    -- Put your code for auto spam here
+    print("Auto Spam Enabled")
+end
 
--- Create a button to start enabling features
-Button.Parent = Frame
-Button.Size = UDim2.new(0, 200, 0, 50)
-Button.Position = UDim2.new(0.5, -100, 0.7, 0)
-Button.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-Button.Text = "Enable Features"
-Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-Button.TextSize = 20
+local function manualSpam()
+    -- Put your code for manual spam here
+    print("Manual Spam Enabled")
+end
 
--- Button click event to print a message and enable features
-Button.MouseButton1Click:Connect(function()
-    print("GUI should appear now!")
-    -- Here, you will add functionality to enable the auto parry and other features
-    -- Example: Enable auto parry
-    -- You can later expand it to add more logic as needed
-end)
+local function autoCurve()
+    -- Put your code for auto curve here
+    print("Auto Curve Enabled")
+end
 
--- Debugging Print (Make sure the script is running)
-print("GUI Initialized, ready to show!")
+local function antiCurve()
+    -- Put your code for anti curve here
+    print("Anti Curve Enabled")
+end
+
+local function enableAutoParryVisualizer()
+    -- Put your code to enable the visualizer here
+    print("Auto Parry Visualizer Enabled")
+end
+
+-- Start the GUI creation and feature activation
+createGUI()
