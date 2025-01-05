@@ -1,53 +1,36 @@
--- Auto Parry Script for Blade Ball
-
--- Constants for the game
+-- Auto Parry Script for Blade Ball (No GUI, Just Features)
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoid = character:WaitForChild("Humanoid")
-local mouse = player:GetMouse()
+local parryCooldown = false
 
--- Settings
-local autoParryEnabled = true -- Toggle auto parry on/off
-local parryDelay = 0.1 -- Delay between each parry attempt (in seconds)
+-- This is just a placeholder for the ball, adjust according to your game
+local ball = game.Workspace:WaitForChild("Ball")
 
--- Function to detect incoming ball
-local function detectBall()
-    local closestBall = nil
-    local closestDistance = math.huge
-    for _, obj in pairs(workspace:GetChildren()) do
-        if obj:IsA("Part") and obj.Name == "Ball" then
-            local ballPosition = obj.Position
-            local playerPosition = character.HumanoidRootPart.Position
-            local distance = (ballPosition - playerPosition).Magnitude
-            if distance < closestDistance then
-                closestDistance = distance
-                closestBall = obj
-            end
-        end
-    end
-    return closestBall
+-- Function to detect ball proximity
+local function isBallNear()
+    local ballPosition = ball.Position
+    local playerPosition = character.HumanoidRootPart.Position
+    local distance = (ballPosition - playerPosition).magnitude
+    return distance < 10 -- Adjust the distance threshold as needed
 end
 
--- Function to perform the parry action
-local function performParry()
-    local ball = detectBall()
-    if ball then
-        -- Check if the ball is near and if the angle is right for a perfect parry
-        local ballDirection = (ball.Position - character.HumanoidRootPart.Position).Unit
-        local playerFacing = character.HumanoidRootPart.CFrame.LookVector
-        local angle = math.acos(ballDirection:Dot(playerFacing))
-
-        -- If the ball is coming at a good angle to parry, perform the parry
-        if angle < math.rad(30) then
-            humanoid:MoveTo(ball.Position)  -- Move toward the ball for perfect parry
-            -- You can add more actions here to simulate the parry or hit the ball
-            print("Parrying!")
-        end
+-- Parry function (Executes when ball is near and ready to parry)
+local function parryBall()
+    if isBallNear() and not parryCooldown then
+        -- Logic for parrying, e.g., animation or action
+        print("Parrying the ball!")
+        parryCooldown = true
+        -- Add parry action here, e.g., animating a parry or using an ability
+        -- Example: humanoid:MoveTo(ball.Position) (adjust this based on how parry is triggered)
+        
+        wait(1) -- Cooldown for parry, adjust as needed
+        parryCooldown = false
     end
 end
 
--- Main loop to keep the auto parry running
-while autoParryEnabled do
-    performParry()
-    wait(parryDelay) -- Delay to avoid overloading the server
+-- Run the auto parry loop
+while true do
+    wait(0.1) -- Check every 0.1 seconds
+    parryBall()
 end
